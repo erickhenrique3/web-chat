@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <p align="center">
   <a href="https://laravel.com" target="_blank">
     <img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo">
@@ -157,3 +158,27 @@ Antes de começar, certifique-se de ter o seguinte instalado em sua máquina:
 
 Este projeto está licenciado sob a [Licença MIT](https://opensource.org/licenses/MIT).
 
+=======
+##Chat em Tempo Real com Vue.js, Laravel e Socket.IO##
+Este projeto é uma aplicação de chat em tempo real construída com Vue.js no frontend, Laravel no backend e Socket.IO para comunicação em tempo real.
+
+Requisitos
+Antes de iniciar, certifique-se de que você tenha os seguintes softwares instalados:
+
+Node.js (versão 12 ou superior)
+PHP (versão 7.4 ou superior)
+Composer
+MySQL ou outro banco de dados de sua escolha
+Instalação
+1. Clone o Repositório
+Para começar, você precisa clonar este repositório para o seu ambiente de desenvolvimento local:
+git clone https://github.com/usuario/nome-do-repositorio.git
+cd nome-do-repositorio
+
+2. Backend (Laravel)
+2.1 Instale as Dependências
+No diretório do projeto, execute o comando abaixo para instalar as dependências do Laravel:
+composer install
+
+
+>>>>>>> 1ca9879a25ea6cc526cf892953e09de8e0c49ff1
