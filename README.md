@@ -1,4 +1,4 @@
-Chat em Tempo Real com Vue.js, Laravel e Socket.IO
+##Chat em Tempo Real com Vue.js, Laravel e Socket.IO##
 Este projeto é uma aplicação de chat em tempo real construída com Vue.js no frontend, Laravel no backend e Socket.IO para comunicação em tempo real.
 
 Requisitos
