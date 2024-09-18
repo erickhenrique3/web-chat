@@ -17,6 +17,8 @@ export default {
             UserActive: null,
             message: "",
             socket: null,
+						typingMessage: "", // Para armazenar a mensagem em partes
+            fullMessage: "Selecione um usuário para iniciar a conversa.",
         };
     },
     computed: {
@@ -24,13 +26,24 @@ export default {
             return (date) =>
                 moment(date)
                     .tz("America/Sao_Paulo")
-                    .format("DD/MM/YYYY HH:mm:ss");
+                    .format("HH:mm");
         },
         currentUser() {
             return this.$page.props.auth.user;
         },
     },
     methods: {
+				typeMessage() {
+							let index = 0;
+							const typingInterval = setInterval(() => {
+									if (index < this.fullMessage.length) {
+											this.typingMessage += this.fullMessage[index];
+											index++;
+									} else {
+											clearInterval(typingInterval); // Parar o temporizador quando toda a mensagem for exibida
+									}
+							}, 100); // Ajuste o tempo para controlar a velocidade da digitação
+					},
         scrollToBottom() {
             this.$nextTick(() => {
                 const messagesContainer = this.$el.querySelector(
@@ -52,6 +65,9 @@ export default {
             });
         },
         sendMessage() {
+					if(!this.message.trim()){
+						return;
+					}
             axios
                 .post("api/messages/store", {
                     content: this.message,
@@ -105,6 +121,7 @@ export default {
         axios.get("api/users").then((response) => {
             this.users = response.data.users;
         });
+				this.typeMessage();
     },
 };
 </script>
@@ -119,6 +136,44 @@ export default {
 
 .message {
     @apply p-2 rounded-md mb-2;
+}
+
+.messages-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+    background-color: #08d8fd79; 
+    border-radius: 10px;
+    border: 2px solid transparent;
+}
+
+.messages-container::-webkit-scrollbar-thumb:hover {
+    background-color:  #08d8fd;
+}
+
+.users-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.users-container::-webkit-scrollbar-track {
+		background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.users-container::-webkit-scrollbar-thumb {
+    background-color: #08d8fd79; 
+    border-radius: 10px;
+		border: 2px solid transparent;
+}
+
+.users-container::-webkit-scrollbar-thumb:hover {
+    background-color: #08d8fd;
 }
 </style>
 
@@ -138,7 +193,7 @@ export default {
                 >
                     <!-- list users -->
                     <div
-                        class="w-3/12 bg-gray-200 bg-opacity-25 border-r border-gray-200 overflow-y-scroll"
+                        class="w-3/12 bg-gray-200 bg-opacity-25 border-r border-gray-200 overflow-y-scroll users-container"
                     >
                         <ul>
                             <li
@@ -168,6 +223,7 @@ export default {
                     <!-- box messages -->
                     <div class="w-9/12 flex flex-col justify-between">
                         <div
+														  v-if="UserActive"
                             class="w-full p-6 flex flex-col overflow-y-scroll messages-container"
                         >
                             <div
@@ -198,6 +254,9 @@ export default {
                                 </span>
                             </div>
                         </div>
+												<div v-else class="w-full p-9 text-xl flex justify-center items-center text-stone-950 cursor-pointer">
+													<p>{{ typingMessage }}</p>
+												</div>
                         <div
                             v-if="UserActive"
                             class="w-full bg-gray-200 bg-opacity-25 p-6 border-t border-gray-200"
