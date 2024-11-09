@@ -5,9 +5,11 @@ import Echo from "laravel-echo";
 import io from "socket.io-client";
 import moment from "moment";
 import "moment-timezone";
+import Emoji from "./Emoji.vue";
 export default {
 	components: {
 		AppLayout,
+		Emoji
 	},
 	data() {
 		return {
@@ -243,5 +245,6 @@ export default {
 				</div>
 			</div>
 		</div>
+		<Emoji/>
 	</AppLayout>
 </template>
