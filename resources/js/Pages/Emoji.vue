@@ -25,10 +25,25 @@ export default {
     
     const emojis = ref([]);
 
+    // const sendEmoji = (emoji) => {
+    
+    //   axios.post('api/emoji', { emoji })
+    //     .then(() => addFloatingEmoji(emoji));
+    // };
     const sendEmoji = (emoji) => {
-      userID = 
-      axios.post('api/emoji', { emoji })
-        .then(() => addFloatingEmoji(emoji));
+      const userId = localStorage.getItem('userId');  
+      axios.post('api/emoji', { emoji, userId })
+        .then(() => addFloatingEmoji(emoji))
+        .catch(error => console.error("Erro ao enviar emoji:", error));
+        reaction();
+
+    };
+
+    const reaction = () => {
+      window.Echo.channel(`emoji-reactions`)
+        .listen('EmojiReactionAdded', (event) => {
+          console.log(event);
+        });
     };
 
     const addFloatingEmoji = (emoji) => {
@@ -43,20 +58,7 @@ export default {
     };
 
     onMounted(() => {
-      window.Echo = new Echo({
-        broadcaster: 'pusher',
-        key: import.meta.env.VITE_REVERB_APP_KEY,
-        wsHost: import.meta.env.VITE_REVERB_HOST,
-        wsPort: import.meta.env.VITE_REVERB_PORT,
-        wssPort: import.meta.env.VITE_REVERB_PORT,
-        forceTLS: import.meta.env.VITE_REVERB_SCHEME === 'https',
-        enabledTransports: ['ws', 'wss'],
-      });
-
-      window.Echo.channel('emoji-reactions')
-        .listen('EmojiReactionAdded', (event) => {
-          addFloatingEmoji(event.emoji);
-        });
+      reaction();
     });
 
     return { emojis, sendEmoji };

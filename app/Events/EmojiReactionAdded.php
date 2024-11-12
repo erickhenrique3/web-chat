@@ -33,14 +33,19 @@ class EmojiReactionAdded implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('Emoji-reactions');
+        return new Channel('emoji-reactions');
     }
+
+    // public function broadcastAs()
+    // {
+    //     return 'EmojiReactionAdded';
+    // }
 
     public function broadcastWith()
     {
         return [
             'emoji' => $this->emoji,
-            'user_id' => $this->userId,
+            'userId' => $this->userId,
         ];
     }
 }
